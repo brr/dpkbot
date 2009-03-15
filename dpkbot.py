@@ -5,7 +5,8 @@ import random
 import xmpp
 import datetime
 import time
-from modules import gtools, weather
+from modules import weather
+from modules import gtools
 import codecs
 
 JID='dpk_bot@jabber.kiev.ua'
