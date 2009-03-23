@@ -7,6 +7,7 @@ import datetime
 import time
 from modules import weather
 from modules import gtools
+from modules import ibash
 import codecs
 
 JID='dpk_bot@jabber.kiev.ua'
@@ -194,6 +195,19 @@ class DpkJabberBot(JabberBot):
         minutes=floor(nf_minutes)
         res=u'Аптайм сервера '+unicode(int(days))+u' дней '+unicode(int(hours))+u' часов '+unicode(int(minutes))+u' минут'
         return res
+    
+    def bot_ibash(self,mess,args):
+        if args == '': return u'What???'
+        else:
+            try:
+               ret=ibash.ibash_quote(args)
+               if ret.find("Che Gototam") > -1: 
+                   return 'Не нашел :('
+                   print ret
+               else: 
+                   return ret
+            except:
+                return 'Не нашел :('
 
 bot=DpkJabberBot(JID,password)
 bot.serve_forever()
