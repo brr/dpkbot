@@ -47,7 +47,7 @@ class DpkJabberBot(JabberBot):
             conn.RegisterHandler('iq', self.iqHandler)
             conn.sendInitPresence()
             
-            room= room_name+"/Чудик-Юдик"
+            room= room_name+"/Козачок, що любить первачок"
             print "Joining " + room
 
             conn.send(xmpp.Presence(to=room))
@@ -171,7 +171,7 @@ class DpkJabberBot(JabberBot):
             a=weather.weather(args)
             return a
         except:
-            return u'Погода сломалась...'
+            return u'Покажите мне скриншоты этого города из Google Earth, распечатанные на гербовой бумаге, в 3-х экземплярах.Тогда, может, я его и найду. А так - идите нафиг'
     
     def bot_google(self,mess,args):
         results=gtools.google_search(args)
