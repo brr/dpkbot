@@ -7,7 +7,7 @@ import datetime
 import time
 from modules import weather
 from modules import gtools
-from modules import ibash
+from modules import bash
 import codecs
 
 JID='dpk_bot@jabber.kiev.ua'
@@ -48,7 +48,7 @@ class DpkJabberBot(JabberBot):
             conn.RegisterHandler('iq', self.iqHandler)
             conn.sendInitPresence()
             
-            room= room_name+"/Козачок, що любить первачок"
+            room= room_name+"/Васёк"
             print "Joining " + room
 
             conn.send(xmpp.Presence(to=room))
@@ -96,9 +96,13 @@ class DpkJabberBot(JabberBot):
         """Отображает текущее время сервера"""
         return unicode(datetime.datetime.now())
 
-    def bot_fpnh(self,mess, args):
+    def bot_gopstop(self,mess, args):
         """Недокументированная возможность"""
-        return u"ЗОБАНЮ ВСЕХ !!!111!111адинадинадин"
+        if args == '':
+            return u"Сышь, пацан, ты с какова раёна? А ну вали отсюдова, а то в морду дам!"
+        else:
+            return u"Сышь, "+args+u", ты с какова раёна? А ну вали отсюдова, а то в морду дам!"
+
     
     def bots_version(self,mess,args):
         if args == '':
@@ -148,14 +152,14 @@ class DpkJabberBot(JabberBot):
             if res:
                 if res.getType() == 'result':
                    t=time.time()
-                   rep=u'Понг от '
+                   rep=u'Для того, чтобы попасть '
                    if user:
-                       rep+=unicode(user)+' '
+                       rep+=unicode(user)+u' кулаком в интерфейс, мне требуется '
                    elif user == unicode(mess.getFrom()):
                        rep+= u'тебя '
                    rep+=unicode(round(t-t0, 3))+u' секунд'
                 else:
-                   rep= u'не пингуецо'
+                   rep= u'Он далеко-о-о-о...'
             self.log(rep)
             #mess=xmpp.Message(room_name, "ir fs!f", mess)
             #self.conn.send(mess)
@@ -172,7 +176,7 @@ class DpkJabberBot(JabberBot):
             a=weather.weather(args)
             return a
         except:
-            return u'Покажите мне скриншоты этого города из Google Earth, распечатанные на гербовой бумаге, в 3-х экземплярах.Тогда, может, я его и найду. А так - идите нафиг'
+            return u'Чаво? Де-де? Ану повтори, фраерок'
     
     def bot_google(self,mess,args):
         results=gtools.google_search(args)
@@ -197,17 +201,32 @@ class DpkJabberBot(JabberBot):
         return res
     
     def bot_ibash(self,mess,args):
-        if args == '': return u'What???'
+        "Показывает выбранную цитату с сайта ibash.org.ru. Использование: ibash [номер цитаты]"
+        if args == '': 
+            rnd=random.randint(1,403000)
+            qn=rnd
+            return u"What???"
+        else:
+            qn=args
+        try:
+            ret=bash.ibash_quote(args)
+            if ret.find("Che Gototam") > -1: 
+                return 'Не нашел :('
+                print ret
+            else: 
+                return ret
+        except:
+            return 'Не нашел :('
+
+    def bot_bor(self,mess,args):
+        "Показывает выбранную цитату с сайта bash.org.ru. Использование: bor [номер цитаты]"
+        if args == '': return bash.bor_random()
         else:
             try:
-               ret=ibash.ibash_quote(args)
-               if ret.find("Che Gototam") > -1: 
-                   return 'Не нашел :('
-                   print ret
-               else: 
-                   return ret
+                ret=bash.bor_quote(args)
+                return ret
             except:
-                return 'Не нашел :('
+                return 'Не пашет, насяйника!'
 
 bot=DpkJabberBot(JID,password)
 bot.serve_forever()

@@ -9,7 +9,7 @@ def weather(city):
     x = dd.find('http://www.gismeteo.ua/towns/')
     idx = dd[x:dd.find('.htm',x)].split('/')[-1].strip()
     if idx:
-    	ret = u'Погода:\n'
+    	ret = u'Метеоусловия, шоле:\n'
     	r = urllib.urlopen('http://informer.gismeteo.ua/rss/%s.xml'%idx)
     	dom = minidom.parse(urllib.urlopen('http://informer.gismeteo.ua/rss/%s.xml'%idx))
     	for x in dom.getElementsByTagName('item'):
