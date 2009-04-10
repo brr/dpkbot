@@ -8,7 +8,7 @@ import time
 from modules import weather
 from modules import gtools
 from modules import bash
-import codecs
+#import codecs
 
 JID='dpk_bot@jabber.kiev.ua'
 password='bogdankos'
@@ -18,10 +18,10 @@ room_name='dpk@conference.jabber.com.ua'
 class DpkJabberBot(JabberBot):
     """This is a jabber bot for the DPK conference, based on JabberBot"""
     
-    def __init__(self, jid, password, res = None):
+    def __init__(self, jid, passwd, res = None):
         """Initializes the jabber bot and sets up commands."""
         #super(jid, password, res=res)
-        JabberBot.__init__(self,jid,password,res= res)
+        JabberBot.__init__(self,jid,passwd,res= res)
         self.comid={'ping':{},'version':{}}
 
     def iqHandler(self, conn, iq_node):
@@ -100,6 +100,8 @@ class DpkJabberBot(JabberBot):
         """Недокументированная возможность"""
         if args == '':
             return u"Сышь, пацан, ты с какова раёна? А ну вали отсюдова, а то в морду дам!"
+        elif args.strip() == 'Мозгoшредер':
+            return u'Я его боюся :('
         else:
             return u"Сышь, "+args+u", ты с какова раёна? А ну вали отсюдова, а то в морду дам!"
 
@@ -158,7 +160,7 @@ class DpkJabberBot(JabberBot):
                    elif user == unicode(mess.getFrom()):
                        rep+= u'тебя '
                    rep+=unicode(round(t-t0, 3))+u' секунд'
-                else:
+            else:
                    rep= u'Он далеко-о-о-о...'
             self.log(rep)
             #mess=xmpp.Message(room_name, "ir fs!f", mess)
